@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+body{
+background-color: beige;   
+font-family: "Playfair Display", serif;
+}
+h1{
+text-align: center;
+}
+.inptask{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#a001{
+    flex: 1;
+    border-radius: 10px;
+    padding: 7px;
+    width: 50%;
+    border: rgb(61, 61, 61) 2px solid;
+    margin-bottom: 5px;
+}
+#a002{
+    padding: 7px;
+    width: 200px;
+    border-radius: 10px;
+    background-color: rgb(191, 255, 255) ;
+    border: rgb(61, 61, 61) 2px solid;
+    cursor: pointer;
+}
+#a002:hover{
+    background-color: rgb(126, 255, 255);
+    transition: 0.3s;
+}
+.done,.del{
+    margin-left:5px ;
+    padding: 7px;
+    width: auto;
+    border-radius: 10px;
+    background-color: rgb(191, 255, 255) ;
+    border: rgb(61, 61, 61) 2px solid;
+    cursor: pointer;
+}
+li{
+    font-weight: 600;
+}
+ul{
+    list-style: none;
+}
+li::before{
+    content: "";
+    background-image:url(https://cdn1.flamp.ru/cf58342cc7f1370bc717a61c33ff9c96.png) ;
+    width: 6px;
+    height: 10px;
+}
+#a004{
+    padding: 0;
+}
+li.ready{
+    text-decoration: line-through;
+    color: rgb(160, 160, 160);
+}
