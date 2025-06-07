@@ -5,6 +5,7 @@ const all = document.querySelector("#a005");
 const Completed = document.querySelector("#a006");
 const Incompleted = document.querySelector("#a007");
 const date = document.querySelector("#a008");
+let tasks = []
 function cr_task(p, ready, deadline, time) {
   const inp = input.value.trim() || p;
   if (inp == "" || inp == undefined) {
@@ -48,11 +49,20 @@ function cr_task(p, ready, deadline, time) {
   redact.onclick = () => {
     edition(list, text);
   };
+  tasks.push({
+    text:inp,
+    class:ready,
+    deadlinee:deadline,
+    timee:time
+  })
 }
 button.onclick = () => {
   cr_task();
   save_task();
 };
+function render_tasks(){
+  
+}
 function edition(Task, tasktekst) {
   const input_1 = document.createElement("input");
   input_1.setAttribute("class", "editinp");
@@ -136,7 +146,7 @@ function checkDL() {
 checkDL();
 const vibori = document.getElementById("bbb");
 function viborii(SMISL) {
-  const tasssk = [...document.getElementsByTagName("li")];
+  const tasssk = [...tasks];
   let massive = [];
   switch (SMISL) {
     case "smisl":
