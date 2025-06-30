@@ -15,6 +15,22 @@ function cr_task(p, ready, deadline, time) {
   }
   deadline = deadline || date.value;
   time = time || Date.now();
+  tasks.push({
+    text:inp,
+    class:ready,
+    deadlinee:deadline,
+    timee:time
+  })
+  input.value = "";
+}
+button.onclick = () => {
+  cr_task();
+  render_tasks(tasks)
+  save_task();
+};
+function render_tasks(tasks_array){
+  ul.innerHTML = ""
+  tasks_array.forEach((task)=>{
   const list = document.createElement("li");
   const del = document.createElement("button");
   const done = document.createElement("button");
@@ -27,8 +43,8 @@ function cr_task(p, ready, deadline, time) {
   done.setAttribute("class", "done");
   del.setAttribute("class", "del");
   redact.setAttribute("class", "edit");
-  date_1.innerText = deadline ? deadline : "бессрочно";
-  if (ready) {
+    date_1.innerText = task.deadlinee ? task.deadlinee : "бессрочно";
+  if (task.class) {
     list.classList.add("ready");
   }
   done.onclick = () => {
@@ -39,29 +55,17 @@ function cr_task(p, ready, deadline, time) {
     ul.removeChild(list);
     save_task();
   };
-  text.innerText = inp;
-  list.setAttribute("deadline", deadline);
-  list.setAttribute("Time", time);
+  text.innerText = task.text;
+  list.setAttribute("deadline", task.deadlinee);
+  list.setAttribute("Time", task.timee);          
   list.append(done, del, redact, text, date_1);
   ul.append(list);
-  input.value = "";
 
-  redact.onclick = () => {
+    redact.onclick = () => {
     edition(list, text);
   };
-  tasks.push({
-    text:inp,
-    class:ready,
-    deadlinee:deadline,
-    timee:time
   })
-}
-button.onclick = () => {
-  cr_task();
-  save_task();
-};
-function render_tasks(){
-  
+
 }
 function edition(Task, tasktekst) {
   const input_1 = document.createElement("input");
@@ -94,9 +98,8 @@ function save_task() {
 }
 function load_tasks() {
   const loading = JSON.parse(localStorage.getItem("tasks"))|| [];
-  loading.forEach((task) => 
-    cr_task(task.task_t, task.task_c, task.task_d, task.task_ti)
-  );
+  console.log(loading)
+  render_tasks(loading)
 }
 load_tasks();
 function filter_task(filter) {
@@ -185,8 +188,7 @@ function viborii(SMISL) {
       });
       break;
   }
-  console.log(massive)
-  return massive
+  render_tasks(massive)
 }
 
 vibori.addEventListener('change',(event)=>{
