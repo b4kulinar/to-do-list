@@ -5,7 +5,7 @@ const all = document.querySelector("#a005");
 const Completed = document.querySelector("#a006");
 const Incompleted = document.querySelector("#a007");
 const date = document.querySelector("#a008");
-let tasks = []
+let tasks = [];
 function cr_task(p, ready, deadline, time) {
   const inp = input.value.trim() || p;
   if (inp == "" || inp == undefined) {
@@ -16,56 +16,55 @@ function cr_task(p, ready, deadline, time) {
   deadline = deadline || date.value;
   time = time || Date.now();
   tasks.push({
-    text:inp,
-    class:ready,
-    deadlinee:deadline,
-    timee:time
-  })
+    task_t: inp,
+    task_c: ready,
+    task_d: deadline,
+    task_ti: time,
+  });
   input.value = "";
 }
 button.onclick = () => {
   cr_task();
-  render_tasks(tasks)
+  render_tasks(tasks);
   save_task();
 };
-function render_tasks(tasks_array){
-  ul.innerHTML = ""
-  tasks_array.forEach((task)=>{
-  const list = document.createElement("li");
-  const del = document.createElement("button");
-  const done = document.createElement("button");
-  const redact = document.createElement("button");
-  const text = document.createElement("p");
-  const date_1 = document.createElement("p");
-  redact.innerText = "Edit";
-  del.innerText = "Delete";
-  done.innerText = "Complete";
-  done.setAttribute("class", "done");
-  del.setAttribute("class", "del");
-  redact.setAttribute("class", "edit");
-    date_1.innerText = task.deadlinee ? task.deadlinee : "бессрочно";
-  if (task.class) {
-    list.classList.add("ready");
-  }
-  done.onclick = () => {
-    list.classList.toggle("ready");
-    save_task();
-  };
-  del.onclick = () => {
-    ul.removeChild(list);
-    save_task();
-  };
-  text.innerText = task.text;
-  list.setAttribute("deadline", task.deadlinee);
-  list.setAttribute("Time", task.timee);          
-  list.append(done, del, redact, text, date_1);
-  ul.append(list);
+function render_tasks(tasks_array) {
+  //  ul.innerHTML = ""
+  tasks_array.forEach((task) => {
+    const list = document.createElement("li");
+    const del = document.createElement("button");
+    const done = document.createElement("button");
+    const redact = document.createElement("button");
+    const text = document.createElement("p");
+    const date_1 = document.createElement("p");
+    redact.innerText = "Edit";
+    del.innerText = "Delete";
+    done.innerText = "Complete";
+    done.setAttribute("class", "done");
+    del.setAttribute("class", "del");
+    redact.setAttribute("class", "edit");
+    date_1.innerText = task.task_d ? task.task_d : "бессрочно";
+    if (task.task_c) {
+      list.classList.add("ready");
+    }
+    done.onclick = () => {
+      list.classList.toggle("ready");
+      save_task();
+    };
+    del.onclick = () => {
+      ul.removeChild(list);
+      save_task();
+    };
+    text.innerText = task.task_t;
+    list.setAttribute("deadline", task.task_d);
+    list.setAttribute("Time", task.task_ti);
+    list.append(done, del, redact, text, date_1);
+    ul.append(list);
 
     redact.onclick = () => {
-    edition(list, text);
-  };
-  })
-
+      edition(list, text);
+    };
+  });
 }
 function edition(Task, tasktekst) {
   const input_1 = document.createElement("input");
@@ -97,9 +96,10 @@ function save_task() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 function load_tasks() {
-  const loading = JSON.parse(localStorage.getItem("tasks"))|| [];
-  console.log(loading)
-  render_tasks(loading)
+  const loading = JSON.parse(localStorage.getItem("tasks")) || [];
+  console.log(loading);
+  tasks.push(loading);
+  render_tasks(loading);
 }
 load_tasks();
 function filter_task(filter) {
@@ -149,14 +149,13 @@ function checkDL() {
 checkDL();
 const vibori = document.getElementById("bbb");
 function viborii(SMISL) {
-  const tasssk = [...tasks];
+  const tasssk = tasks;
   let massive = [];
+  console.log(tasks);
   switch (SMISL) {
     case "smisl":
       massive = tasssk.sort((a, b) => {
-        a.querySelector("p").innerText.localeCompare(
-          b.querySelector("p").innerText
-        );
+        a.task_t.localeCompare(b.task_t);
       });
       break;
     case "smisl1":
@@ -179,21 +178,19 @@ function viborii(SMISL) {
     case "smisl4":
       massive = tasssk.sort((a, b) => {
         parseInt(b.getAttribute("Time")) - parseInt(a.getAttribute("Time"));
-        b.classList.contains('ready')-a.classList.contains('ready');
+        b.classList.contains("ready") - a.classList.contains("ready");
       });
       break;
     case "smisl5":
       massive = tasssk.sort((a, b) => {
-        a.classList.contains('ready')-b.classList.contains('ready');
+        a.classList.contains("ready") - b.classList.contains("ready");
       });
       break;
   }
-  render_tasks(massive)
+  render_tasks(massive);
 }
 
-vibori.addEventListener('change',(event)=>{
-  const smisl = event.target.value
-  const mass = vibori(smisl)
-})
-
-viborii('smisl5')
+vibori.addEventListener("change", (event) => {
+  const smisl = event.target.value;
+  viborii(smisl);
+});
