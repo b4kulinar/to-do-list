@@ -27,9 +27,10 @@ button.onclick = () => {
   cr_task();
   render_tasks(tasks);
   save_task();
+  console.log(tasks)
 };
 function render_tasks(tasks_array) {
-  //  ul.innerHTML = ""
+  ul.innerHTML = ""
   tasks_array.forEach((task) => {
     const list = document.createElement("li");
     const del = document.createElement("button");
@@ -60,6 +61,7 @@ function render_tasks(tasks_array) {
     list.setAttribute("Time", task.task_ti);
     list.append(done, del, redact, text, date_1);
     ul.append(list);
+    
 
     redact.onclick = () => {
       edition(list, text);
@@ -98,7 +100,6 @@ function save_task() {
 function load_tasks() {
   const loading = JSON.parse(localStorage.getItem("tasks")) || [];
   console.log(loading);
-  tasks.push(loading);
   render_tasks(loading);
 }
 load_tasks();
@@ -155,35 +156,32 @@ function viborii(SMISL) {
   switch (SMISL) {
     case "smisl":
       massive = tasssk.sort((a, b) => {
-        a.task_t.localeCompare(b.task_t);
+        return a.task_t.localeCompare(b.task_t);
       });
       break;
     case "smisl1":
       massive = tasssk.sort((a, b) => {
-        b.querySelector("p").innerText.localeCompare(
-          a.querySelector("p").innerText
-        );
+        return b.task_t.localeCompare(a.task_t)
       });
       break;
     case "smisl2":
       massive = tasssk.sort((a, b) => {
-        parseInt(b.getAttribute("Time")) - parseInt(a.getAttribute("Time"));
+        return parseInt(b.task_ti) - parseInt(a.task_ti);
       });
       break;
     case "smisl3":
       massive = tasssk.sort((a, b) => {
-        parseInt(a.getAttribute("Time")) - parseInt(b.getAttribute("Time"));
+        return parseInt(a.task_ti) - parseInt(b.task_ti);
       });
       break;
     case "smisl4":
       massive = tasssk.sort((a, b) => {
-        parseInt(b.getAttribute("Time")) - parseInt(a.getAttribute("Time"));
-        b.classList.contains("ready") - a.classList.contains("ready");
+      return  b.task_c - a.task_c;
       });
       break;
     case "smisl5":
       massive = tasssk.sort((a, b) => {
-        a.classList.contains("ready") - b.classList.contains("ready");
+        return  a.task_c - b.task_c;
       });
       break;
   }
